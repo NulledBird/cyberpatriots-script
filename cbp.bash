@@ -16,7 +16,7 @@ chmod 440 /etc/sudoers && chmod 440 /etc/sudoers.d/ && echo "Set /etc/sudoers pe
 chmod 644 /etc/group && echo "Set /etc/group permissions"
 chmod 644 /etc/passwd && echo "Set /etc/passwd permissions"
 chmod 640 /etc/shadow && echo "Set /etc/shadow permissions"
-passwd -l root
+passwd -l root > /dev/null && echo "Locked root user"
 
 echo -ne "\n\e[4m" && printf "%-$(tput cols)b" "KERNEL HARDENING" && echo -e "\e[0m\n"
 
@@ -30,6 +30,8 @@ sysctl -q -w -n net.ipv4.conf.all.rp_filter=1 && echo "Source Address Verficatio
 sysctl -q -w -n kernel.randomize_va_space=2 && echo "Kernel ASLR Enabled"
 sysctl -q -w -n kernel.pid_max=5000 && echo "Kernel Process Limit Set"
 sysctl -q -w -n net.ipv6.conf.all.disable_ipv6=1 && sysctl -q -w -n net.ipv6.conf.default.disable_ipv6=1 && sysctl -q -w -n net.ipv6.conf.lo.disable_ipv6=1 && echo "Disabled IPv6"
-echo -e "\n!!! Enable Kernel lockdown using this: https://www.davekb.com/browse_computer_tips:linux_enable_lockdown_mode:txt !!!"
+
+grub_cmd=$(grep -e 'GRUB_CMDLINE_LINUX=' /etc/default/grub | rev | cut -c 2- | rev | sed "s/lockdown=confidentiality//g")
+sed -i "s/$grub_cmd/$grub_cmd lockdown=confidentiality/" /etc/default/grub && sudo update-grub &> /dev/null && echo "Lockdowned boot"
 
 echo -e "\n\n\n\n"
