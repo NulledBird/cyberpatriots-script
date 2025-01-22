@@ -16,6 +16,7 @@ chmod 440 /etc/sudoers && chmod 440 /etc/sudoers.d/ && echo "Set /etc/sudoers pe
 chmod 644 /etc/group && echo "Set /etc/group permissions"
 chmod 644 /etc/passwd && echo "Set /etc/passwd permissions"
 chmod 640 /etc/shadow && echo "Set /etc/shadow permissions"
+passwd -l root
 
 echo -ne "\n\e[4m" && printf "%-$(tput cols)b" "KERNEL HARDENING" && echo -e "\e[0m\n"
 
