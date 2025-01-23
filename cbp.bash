@@ -74,7 +74,7 @@ echo -e "Contents of /etc/cron.yearly: $(ls -CF /etc/cron.yearly)"
 
 echo -e "\n\nChecking for suspicious files..."
 
-find /home/ -mindepth 1 -maxdepth 1 -type d \( ! -name . \) -exec bash -c "pwd && echo -e '	/Videos/: $(ls -CF ./Videos/)\n	/Music/: $(ls -CF ./Music/)\n	/Pictures/: $(ls -CF ./Pictures/)\n	/.bash_alias: $(cat ./.bash_alias 2>/dev/null)'" \;
+find /home/ -mindepth 1 -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && pwd && echo -e '	/Videos/: $(ls -CF ./Videos/)\n	/Music/: $(ls -CF ./Music/)\n	/Pictures/: $(ls -CF ./Pictures/)\n	/.bash_alias: $(cat ./.bash_alias 2>/dev/null)'" \;
 
 
 echo -e "\n\n\n\n"
